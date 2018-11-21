@@ -28,14 +28,25 @@
 # throttled=0x70000
 #
 # The 32-bit word is read as follows (bit index):
+# https://github.com/raspberrypi/documentation/blob/JamesH65-patch-vcgencmd/raspbian/applications/vcgencmd.md
+# (Edit 16.10.2018 by JamesH65)
 #
-#   1110000000000000010
-#   |||             |||_ under-voltage
-#   |||             ||_ currently throttled
-#   |||             |_ arm frequency capped
-#   |||_ under-voltage has occurred since last reboot
-#   ||_ throttling has occurred since last reboot
-#   |_ arm frequency capped has occurred since last reboot
+# bit   11110000000000000010
+#  0    ||||            ||||_ Under Voltage (right now)
+#  1    ||||            |||_ ARM frequency Capped (right now)
+#  2    ||||            ||_ Currently Throttled
+#  3    ||||            |_ Soft Temp limit reached (in effect now)
+# 16    ||||_ Under Voltage has occured since last reboot
+# 17    |||_ ARM frequency capping has occured since last reboot
+# 18    ||_ Throttling has occurred since last reboot
+# 19    |_ Soft Temp limit has occurred
+#
+# NOTE: Soft Temp limit is specific for Raspberry Pi 3 B+ model only (in 2018).
+#       None of the earlier models have this soft limit.
+#
+# WHAT IS THE DIFFERENCE BETWEEN THROTTLING, ARM FREQ CAPPING AND SOFT LIMIT?
+#
+#       TBA
 #DISCREPANCY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # bit-index
 #        0: under-voltage                           & 0x0000 0001
