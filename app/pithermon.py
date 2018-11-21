@@ -549,11 +549,11 @@ if __name__ == "__main__":
     next_tick = start_time + 0.5    # 500 ms so that first sleep won't get negative number
     while True:
         try:
-            sleep_duration = next_tick - time.time
+            sleep_duration = next_tick - time.time()
             # Avoid lag-induced negative sleep times
             if sleep_duration > 0:
                 # Sleep until next_tick
-                time.sleep(next_tick - time.time())
+                time.sleep(sleep_duration)
             # Measure and write CSV
             data.read(next_tick)
             console_throttling_alert(data)
