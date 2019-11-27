@@ -10,6 +10,7 @@
 #   0.4     2018.08.31  Throttling information added.
 #   0.5     2018.09.01  Added core voltage information.
 #   0.5.5   2018.09.15  Added alarm commandline option.
+#   0.5.6   2019.11.28  Slight clean-up.
 #
 # Python csv module is unable to deal with value formatting issues.
 # In this case, it means that if a CSV conforming to Finnish locale is needed,
@@ -60,14 +61,14 @@
 #
 # sysbench --test=cpu --cpu-max-prime=20000 --num-threads=4 run
 #
-__version__ = "0.5.5"
+__version__ = "0.5.6"
 __author__  = "Jani Tammi <jasata@utu.fi>"
 VERSION = __version__
 HEADER  = """
 =============================================================================
 University of Turku, Department of Future Technologies
 ForeSail-1 / Raspberry Pi temperature and thermal throttling monitor
-Version {}, 2018 {}
+Version {}, 2018-2019 {}
 """.format(__version__, __author__)
 
 import os
@@ -239,15 +240,6 @@ class Data():
 csv.register_dialect('finnish', delimiter=';')
 
 
-###############################################################################
-# DEVELOPMENT FUNCTIONS (to be removed)
-#convert string to hex
-toHex = lambda x:"".join([hex(ord(c))[2:].zfill(2) for c in x])
-#convert hex repr to string
-#def toStr(s):
-#    return s and chr(atoi(s[:2], base=16)) + toStr(s[2:]) or ''
-###############################################################################
-
 #
 # Functions that you can copy into your own use
 #
@@ -396,13 +388,13 @@ def console_throttling_alert(data):
 
 def csv_write_header(csv):
     csv.writerow(
-                    (
-                        'Date',
-                        time.strftime(
-                            "%Y-%m-%d %H:%M:%S",
-                            time.localtime(time.time())
-                        )
-                    )
+        (
+            'Date',
+            time.strftime(
+                "%Y-%m-%d %H:%M:%S",
+                time.localtime(time.time())
+            )
+        )
     )
     # host, domain, ip
     csv.writerow(('Device', platform.node()))
@@ -416,7 +408,6 @@ def csv_write_header(csv):
 #
 if __name__ == "__main__":
 
-    # DEBUG
     #print("Built-in defaults:")
     #Config.show()
 
@@ -502,8 +493,6 @@ if __name__ == "__main__":
     Config.Interval         = args.interval
     Config.Console_Alert    = args.alert
 
-    # DEBUG
-    print("PASSED HELP")
     #print("Run parameters:")
     #Config.show()
 
@@ -512,7 +501,7 @@ if __name__ == "__main__":
     #
     print(HEADER)
     print(
-        "Running on Python ver.{} on {} {}" \
+        "Running Python ver.{} on {} {}" \
         .format(
             platform.python_version(),
             platform.system(),
